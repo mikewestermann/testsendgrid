@@ -48,6 +48,7 @@ def signup():
 
     elif request.method == "POST":
         username = request.form.get("username")
+        email_address = request.form.get("email-address")
         password = request.form.get("password")
         repeat = request.form.get("repeat")
 
@@ -55,7 +56,9 @@ def signup():
             return "Passwords do not match! Go back and try again."
 
         user = User(username=username, password_hash=hashlib.sha256(password.encode()).hexdigest(),
-                    session_token=str(uuid.uuid4()))
+                    session_token=str(uuid.uuid4()),
+                    email_address=email_address
+                    )
         db.add(user)  # add to the transaction (user is not yet in a database)
         db.commit()  # commit the transaction into the database (user is now added in the database)
 
